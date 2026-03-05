@@ -14,6 +14,7 @@ const cli = meow(
 	  add-task  Add a task to a PRD
 
 	Options
+	  --help, -h         Show help
 	  --title, -t        PRD title (create)
 	  --description, -d  PRD description (create)
 	  --task             Task text (add-task)
@@ -26,13 +27,19 @@ const cli = meow(
 `,
 	{
 		importMeta: import.meta,
+		autoHelp: false,
 		flags: {
+			help: { type: "boolean", shortFlag: "h" },
 			title: { type: "string", shortFlag: "t" },
 			description: { type: "string", shortFlag: "d" },
 			task: { type: "string" },
 		},
 	},
 );
+
+if (cli.flags.help || cli.flags.h) {
+	cli.showHelp();
+}
 
 const command = cli.input[0] ?? "list";
 const args = cli.input.slice(1);
