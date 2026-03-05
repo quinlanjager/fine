@@ -19,7 +19,7 @@ test("index.html uses lofi theme", async () => {
 
 test("index.html has centered prose wrapper", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
-  expect(html).toContain('class="prose mx-auto px-4 py-8 max-w-prose"');
+  expect(html).toContain('class="prose content-container py-8"');
 });
 
 test("index.html contains expected content sections", async () => {
