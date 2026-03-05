@@ -17,9 +17,9 @@ test("index.html uses lofi theme", async () => {
   expect(html).toContain('data-theme="lofi"');
 });
 
-test("index.html has prose wrapper", async () => {
+test("index.html has centered prose wrapper", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
-  expect(html).toContain('class="prose"');
+  expect(html).toContain('class="prose mx-auto px-4 py-8 max-w-prose"');
 });
 
 test("index.html contains expected content sections", async () => {
