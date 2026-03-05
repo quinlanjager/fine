@@ -1,40 +1,58 @@
 import { test, expect } from "bun:test";
-import { addTask, toggleTask, removeTask } from "../../source/domain/task.ts";
-import { parsePRD } from "../../source/domain/prd.ts";
+import { parseTask, serializeTask, validateTask, summarizeTask } from "../../source/domain/task.ts";
 
-const basePRD = parsePRD(1, "test", "# Test\n\nDesc.\n\n## Tasks\n\n- [ ] Task A\n- [x] Task B\n");
-
-test("addTask appends a new incomplete task", () => {
-	const result = addTask(basePRD, "Task C");
-	expect(result.tasks).toHaveLength(3);
-	expect(result.tasks[2]).toEqual({ text: "Task C", completed: false });
+test("parseTask extracts all fields", () => {
+	const md = "# My Task\n\nA description.\n\n## Steps\n\n- [ ] Step 1\n- [x] Step 2\n";
+	const task = parseTask(1, "my-task", md);
+	expect(task).toEqual({
+		id: 1,
+		slug: "my-task",
+		title: "My Task",
+		description: "A description.",
+		steps: [
+			{ text: "Step 1", completed: false },
+			{ text: "Step 2", completed: true },
+		],
+	});
 });
 
-test("addTask does not mutate original", () => {
-	addTask(basePRD, "Task C");
-	expect(basePRD.tasks).toHaveLength(2);
+test("parseTask handles missing title", () => {
+	const task = parseTask(1, "test", "No title here");
+	expect(task.title).toBe("");
 });
 
-test("toggleTask flips completion status", () => {
-	const result = toggleTask(basePRD, 0);
-	expect(result.tasks[0]!.completed).toBe(true);
-
-	const result2 = toggleTask(basePRD, 1);
-	expect(result2.tasks[1]!.completed).toBe(false);
+test("serializeTask roundtrips", () => {
+	const md = "# My Task\n\nA description.\n\n## Steps\n\n- [ ] Step 1\n- [x] Step 2\n";
+	const task = parseTask(1, "my-task", md);
+	expect(serializeTask(task)).toBe(md);
 });
 
-test("toggleTask returns same PRD for out-of-range index", () => {
-	expect(toggleTask(basePRD, -1)).toBe(basePRD);
-	expect(toggleTask(basePRD, 99)).toBe(basePRD);
+test("validateTask requires title", () => {
+	expect(validateTask({ title: "", description: "" })).toEqual({
+		valid: false,
+		errors: ["Title is required"],
+	});
 });
 
-test("removeTask removes task at index", () => {
-	const result = removeTask(basePRD, 0);
-	expect(result.tasks).toHaveLength(1);
-	expect(result.tasks[0]!.text).toBe("Task B");
+test("validateTask accepts valid input", () => {
+	expect(validateTask({ title: "Test", description: "" })).toEqual({
+		valid: true,
+		errors: [],
+	});
 });
 
-test("removeTask returns same PRD for out-of-range index", () => {
-	expect(removeTask(basePRD, -1)).toBe(basePRD);
-	expect(removeTask(basePRD, 99)).toBe(basePRD);
+test("summarizeTask computes step counts", () => {
+	const task = parseTask(
+		1,
+		"test",
+		"# Test\n\nDesc.\n\n## Steps\n\n- [ ] A\n- [x] B\n- [x] C\n",
+	);
+	const summary = summarizeTask(task);
+	expect(summary).toEqual({
+		id: 1,
+		slug: "test",
+		title: "Test",
+		completedSteps: 2,
+		totalSteps: 3,
+	});
 });

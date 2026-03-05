@@ -1,20 +1,34 @@
-import type { PRD, Task } from "./types.ts";
+import type { Task, TaskInput, TaskSummary, ValidationResult } from "./types.ts";
+import { extractTitle, extractDescription, extractSteps, serializeMarkdown } from "./format.ts";
 
-export function addTask(prd: PRD, text: string): PRD {
-	const newTask: Task = { text, completed: false };
-	return { ...prd, tasks: [...prd.tasks, newTask] };
+export function parseTask(id: number, slug: string, markdown: string): Task {
+	const title = extractTitle(markdown) ?? "";
+	const description = extractDescription(markdown);
+	const steps = extractSteps(markdown);
+
+	return { id, slug, title, description, steps };
 }
 
-export function toggleTask(prd: PRD, taskIndex: number): PRD {
-	if (taskIndex < 0 || taskIndex >= prd.tasks.length) return prd;
-	const tasks = prd.tasks.map((task, i) =>
-		i === taskIndex ? { ...task, completed: !task.completed } : task,
-	);
-	return { ...prd, tasks };
+export function serializeTask(task: Task): string {
+	return serializeMarkdown(task.title, task.description, task.steps);
 }
 
-export function removeTask(prd: PRD, taskIndex: number): PRD {
-	if (taskIndex < 0 || taskIndex >= prd.tasks.length) return prd;
-	const tasks = prd.tasks.filter((_, i) => i !== taskIndex);
-	return { ...prd, tasks };
+export function validateTask(input: TaskInput): ValidationResult {
+	const errors: string[] = [];
+
+	if (!input.title.trim()) {
+		errors.push("Title is required");
+	}
+
+	return { valid: errors.length === 0, errors };
+}
+
+export function summarizeTask(task: Task): TaskSummary {
+	return {
+		id: task.id,
+		slug: task.slug,
+		title: task.title,
+		completedSteps: task.steps.filter((s) => s.completed).length,
+		totalSteps: task.steps.length,
+	};
 }

@@ -12,22 +12,27 @@
     <link rel="stylesheet" href="/assets/styles.css">
   </head>
   <body>
-    <header class="site-header border-b border-base-300">
+    <header class="site-header">
       <div class="content-container py-3 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2 no-underline">
           <div class="logo-placeholder w-8 h-8 bg-base-300 rounded"></div>
           <span class="font-bold text-base">fine</span>
         </a>
-        <nav class="flex items-center gap-4">
-          <a href="/#install" class="text-sm no-underline hover:underline">Install</a>
-          <a href="/#usage" class="text-sm no-underline hover:underline">Usage</a>
-          <a href="/#format" class="text-sm no-underline hover:underline">Format</a>
-        </nav>
       </div>
     </header>
     <div class="prose content-container py-8">
       {{ content }}
     </div>
+    <footer class="content-container py-6 text-center text-sm text-base-content/60">
+      <p>MIT License</p>
+      <p class="mt-2">
+        <a href="https://github.com/quinlanjager/fine" class="underline hover:text-base-content">GitHub</a>
+        ·
+        <a href="https://www.npmjs.com/package/fine" class="underline hover:text-base-content">npm</a>
+        ·
+        Built by <a href="https://x.com/quinlanjager" class="underline hover:text-base-content">Quinlan Jager</a>
+      </p>
+    </footer>
   </body>
 </html>
 

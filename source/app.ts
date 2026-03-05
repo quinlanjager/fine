@@ -2,7 +2,7 @@ import chalk from "chalk";
 import create from "./commands/create.ts";
 import list from "./commands/list.ts";
 import show from "./commands/show.ts";
-import addTaskCommand from "./commands/add-task.ts";
+import addStepCommand from "./commands/add-step.ts";
 
 interface RunOptions {
 	command: string;
@@ -10,7 +10,7 @@ interface RunOptions {
 	flags: {
 		title?: string;
 		description?: string;
-		task?: string;
+		step?: string;
 	};
 }
 
@@ -22,8 +22,8 @@ export default async function run({ command, args, flags }: RunOptions): Promise
 			return list();
 		case "show":
 			return show({ id: args[0] });
-		case "add-task":
-			return addTaskCommand({ id: args[0], task: flags.task });
+		case "add-step":
+			return addStepCommand({ id: args[0], step: flags.step });
 		default:
 			return chalk.red(`Unknown command: ${command}. Run \`fine --help\` for usage.`);
 	}

@@ -20,6 +20,9 @@
 		"meow": "^11.0.0"
 	},
 	"devDependencies": {
-		"bun-types": "latest"
+		"@tailwindcss/typography": "^0.5.19",
+		"bun-types": "latest",
+		"markdown-it-anchor": "^9.2.0",
+		"tailwindcss": "^4.2.1"
 	}
 }

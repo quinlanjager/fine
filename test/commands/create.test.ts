@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import create from "../../source/commands/create.ts";
-import { resolvePrdsPath } from "../../source/io/config.ts";
+import { resolveTasksPath } from "../../source/io/config.ts";
 
 let tempDir: string;
 let origCwd: string;
@@ -24,13 +24,13 @@ test("create shows error when no title", async () => {
 	expect(output).toContain("Missing required flag: --title");
 });
 
-test("create creates a PRD file", async () => {
-	const output = await create({ title: "Test PRD", description: "A test." });
-	expect(output).toContain("Created PRD #1");
-	expect(output).toContain("001-test-prd.md");
+test("create creates a task file", async () => {
+	const output = await create({ title: "Test Task", description: "A test." });
+	expect(output).toContain("Created task #1");
+	expect(output).toContain("001-test-task.md");
 
-	const file = Bun.file(join(resolvePrdsPath(tempDir), "001-test-prd.md"));
+	const file = Bun.file(join(resolveTasksPath(tempDir), "001-test-task.md"));
 	const content = await file.text();
-	expect(content).toContain("# Test PRD");
+	expect(content).toContain("# Test Task");
 	expect(content).toContain("A test.");
 });

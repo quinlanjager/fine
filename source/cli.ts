@@ -8,22 +8,24 @@ const cli = meow(
 	  $ fine <command> [options]
 
 	Commands
-	  create    Create a new PRD
-	  list      List all PRDs (default)
-	  show      Show a PRD by ID
-	  add-task  Add a task to a PRD
+	  create    Create a new task
+	  list      List all tasks (default)
+	  show      Show a task by ID
+	  add-step  Add a step to a task
 
 	Options
 	  --help, -h         Show help
-	  --title, -t        PRD title (create)
-	  --description, -d  PRD description (create)
-	  --task             Task text (add-task)
+	  --title, -t        Task title (create)
+	  --description, -d  Task description (create)
+	  --step             Step text (add-step)
 
 	Examples
-	  $ fine create --title "User Auth" --description "Auth system"
+	  $ fine create --title "Dark Mode Support" --description "Add a dark/light theme toggle"
+	  $ fine add-step 1 --step "Define color tokens for both themes"
+	  $ fine add-step 1 --step "Create ThemeProvider context"
+	  $ fine add-step 1 --step "Add toggle component to header"
 	  $ fine list
 	  $ fine show 1
-	  $ fine add-task 1 --task "Implement login"
 `,
 	{
 		importMeta: import.meta,
@@ -32,7 +34,7 @@ const cli = meow(
 			help: { type: "boolean", shortFlag: "h" },
 			title: { type: "string", shortFlag: "t" },
 			description: { type: "string", shortFlag: "d" },
-			task: { type: "string" },
+			step: { type: "string" },
 		},
 	},
 );

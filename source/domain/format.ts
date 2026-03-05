@@ -1,4 +1,4 @@
-import type { Task } from "./types.ts";
+import type { Step } from "./types.ts";
 
 export function extractTitle(markdown: string): string | undefined {
 	const match = markdown.match(/^#\s+(.+)$/m);
@@ -25,23 +25,23 @@ export function extractDescription(markdown: string): string {
 	return lines.slice(startIndex, endIndex).join("\n").trim();
 }
 
-export function extractTasks(markdown: string): Task[] {
+export function extractSteps(markdown: string): Step[] {
 	const lines = markdown.split("\n");
-	let inTasksSection = false;
-	const tasks: Task[] = [];
+	let inStepsSection = false;
+	const steps: Step[] = [];
 
 	for (const line of lines) {
-		if (/^##\s+Tasks\s*$/.test(line)) {
-			inTasksSection = true;
+		if (/^##\s+Steps\s*$/.test(line)) {
+			inStepsSection = true;
 			continue;
 		}
-		if (inTasksSection && /^##\s+/.test(line)) {
+		if (inStepsSection && /^##\s+/.test(line)) {
 			break;
 		}
-		if (inTasksSection) {
+		if (inStepsSection) {
 			const match = line.match(/^-\s+\[([ x])\]\s+(.+)$/);
 			if (match) {
-				tasks.push({
+				steps.push({
 					completed: match[1] === "x",
 					text: match[2]!.trim(),
 				});
@@ -49,31 +49,31 @@ export function extractTasks(markdown: string): Task[] {
 		}
 	}
 
-	return tasks;
+	return steps;
 }
 
-export function serializeTask(task: Task): string {
-	const checkbox = task.completed ? "[x]" : "[ ]";
-	return `- ${checkbox} ${task.text}`;
+export function serializeStep(step: Step): string {
+	const checkbox = step.completed ? "[x]" : "[ ]";
+	return `- ${checkbox} ${step.text}`;
 }
 
-export function serializeTasks(tasks: readonly Task[]): string {
-	if (tasks.length === 0) return "";
-	return "## Tasks\n\n" + tasks.map(serializeTask).join("\n");
+export function serializeSteps(steps: readonly Step[]): string {
+	if (steps.length === 0) return "";
+	return "## Steps\n\n" + steps.map(serializeStep).join("\n");
 }
 
 export function serializeMarkdown(
 	title: string,
 	description: string,
-	tasks: readonly Task[],
+	steps: readonly Step[],
 ): string {
 	let md = `# ${title}\n`;
 	if (description) {
 		md += `\n${description}\n`;
 	}
-	const taskSection = serializeTasks(tasks);
-	if (taskSection) {
-		md += `\n${taskSection}\n`;
+	const stepSection = serializeSteps(steps);
+	if (stepSection) {
+		md += `\n${stepSection}\n`;
 	}
 	return md;
 }

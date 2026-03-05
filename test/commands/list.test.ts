@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import list from "../../source/commands/list.ts";
-import { ensurePrdsDir } from "../../source/io/fs.ts";
+import { ensureTasksDir } from "../../source/io/fs.ts";
 
 let tempDir: string;
 let origCwd: string;
@@ -19,25 +19,25 @@ afterEach(async () => {
 	await rm(tempDir, { recursive: true, force: true });
 });
 
-test("list shows message when no PRDs exist", async () => {
-	await ensurePrdsDir(tempDir);
+test("list shows message when no tasks exist", async () => {
+	await ensureTasksDir(tempDir);
 	const output = await list();
-	expect(output).toContain("No PRDs found");
+	expect(output).toContain("No tasks found");
 });
 
-test("list shows PRDs with progress", async () => {
-	const dir = await ensurePrdsDir(tempDir);
+test("list shows tasks with progress", async () => {
+	const dir = await ensureTasksDir(tempDir);
 	await Bun.write(
 		join(dir, "001-first.md"),
-		"# First PRD\n\nDesc.\n\n## Tasks\n\n- [ ] Task A\n- [x] Task B\n",
+		"# First Task\n\nDesc.\n\n## Steps\n\n- [ ] Step A\n- [x] Step B\n",
 	);
-	await Bun.write(join(dir, "002-second.md"), "# Second PRD\n\nAnother.\n");
+	await Bun.write(join(dir, "002-second.md"), "# Second Task\n\nAnother.\n");
 
 	const output = await list();
 	expect(output).toContain("#001");
-	expect(output).toContain("First PRD");
+	expect(output).toContain("First Task");
 	expect(output).toContain("[1/2]");
 	expect(output).toContain("#002");
-	expect(output).toContain("Second PRD");
+	expect(output).toContain("Second Task");
 	expect(output).toContain("[0/0]");
 });

@@ -25,8 +25,8 @@ test("index.html has centered prose wrapper", async () => {
 test("index.html contains expected content sections", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
   expect(html).toContain("<h1>fine</h1>");
-  expect(html).toContain('id="install">Install</h2>');
-  expect(html).toContain('id="format">PRD format</h2>');
+  expect(html).toContain('id="install"');
+  expect(html).toContain('id="examples"');
 });
 
 test("styles.css is generated", async () => {
@@ -54,23 +54,15 @@ test("header contains site name link", async () => {
   expect(html).toContain('<span class="font-bold text-base">fine</span>');
 });
 
-test("header contains navigation links", async () => {
+test("header contains site-header class", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
-  expect(html).toContain('href="/#install"');
-  expect(html).toContain('href="/#usage"');
-  expect(html).toContain('href="/#format"');
-});
-
-test("header has border separator", async () => {
-  const html = await Bun.file(`${SITE_DIR}/index.html`).text();
-  expect(html).toContain('class="site-header border-b border-base-300"');
+  expect(html).toContain('class="site-header');
 });
 
 test("sections have anchor IDs for nav links", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
   expect(html).toContain('id="install"');
-  expect(html).toContain('id="usage"');
-  expect(html).toContain('id="format"');
+  expect(html).toContain('id="examples"');
 });
 
 test("code highlighting is applied", async () => {

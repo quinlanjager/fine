@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { createPRD } from "../io/fs.ts";
+import { createTask } from "../io/fs.ts";
 
 interface CreateOptions {
 	title?: string;
@@ -11,6 +11,6 @@ export default async function create({ title, description }: CreateOptions): Pro
 		return chalk.red("Error: Missing required flag: --title (-t)");
 	}
 
-	const { prd, filename } = await createPRD({ title, description: description ?? "" });
-	return chalk.green(`Created PRD #${prd.id}: ${filename}`);
+	const { task, filename } = await createTask({ title, description: description ?? "" });
+	return chalk.green(`Created task #${task.id}: ${filename}`);
 }

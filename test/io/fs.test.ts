@@ -3,15 +3,15 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import {
-	ensurePrdsDir,
-	listPRDFiles,
+	ensureTasksDir,
+	listTaskFiles,
 	getExistingIds,
-	readPRD,
-	writePRD,
-	createPRD,
+	readTask,
+	writeTask,
+	createTask,
 } from "../../source/io/fs.ts";
-import { resolvePrdsPath } from "../../source/io/config.ts";
-import type { PRD } from "../../source/domain/types.ts";
+import { resolveTasksPath } from "../../source/io/config.ts";
+import type { Task } from "../../source/domain/types.ts";
 
 let tempDir: string;
 
@@ -23,9 +23,9 @@ afterEach(async () => {
 	await rm(tempDir, { recursive: true, force: true });
 });
 
-test("ensurePrdsDir creates directory", async () => {
-	const dir = await ensurePrdsDir(tempDir);
-	expect(dir).toBe(resolvePrdsPath(tempDir));
+test("ensureTasksDir creates directory", async () => {
+	const dir = await ensureTasksDir(tempDir);
+	expect(dir).toBe(resolveTasksPath(tempDir));
 	const file = Bun.file(dir);
 	// Check directory exists by trying to list it
 	const glob = new Bun.Glob("*");
@@ -36,24 +36,24 @@ test("ensurePrdsDir creates directory", async () => {
 	expect(results).toEqual([]);
 });
 
-test("listPRDFiles returns empty array when no files", async () => {
-	await ensurePrdsDir(tempDir);
-	const files = await listPRDFiles(tempDir);
+test("listTaskFiles returns empty array when no files", async () => {
+	await ensureTasksDir(tempDir);
+	const files = await listTaskFiles(tempDir);
 	expect(files).toEqual([]);
 });
 
-test("listPRDFiles returns sorted PRD files", async () => {
-	const dir = await ensurePrdsDir(tempDir);
+test("listTaskFiles returns sorted task files", async () => {
+	const dir = await ensureTasksDir(tempDir);
 	await Bun.write(join(dir, "002-second.md"), "# Second");
 	await Bun.write(join(dir, "001-first.md"), "# First");
-	await Bun.write(join(dir, "not-a-prd.txt"), "ignore me");
+	await Bun.write(join(dir, "not-a-task.txt"), "ignore me");
 
-	const files = await listPRDFiles(tempDir);
+	const files = await listTaskFiles(tempDir);
 	expect(files).toEqual(["001-first.md", "002-second.md"]);
 });
 
 test("getExistingIds returns parsed IDs", async () => {
-	const dir = await ensurePrdsDir(tempDir);
+	const dir = await ensureTasksDir(tempDir);
 	await Bun.write(join(dir, "001-first.md"), "# First");
 	await Bun.write(join(dir, "003-third.md"), "# Third");
 
@@ -61,65 +61,65 @@ test("getExistingIds returns parsed IDs", async () => {
 	expect(ids).toEqual([1, 3]);
 });
 
-test("readPRD returns parsed PRD", async () => {
-	const dir = await ensurePrdsDir(tempDir);
+test("readTask returns parsed task", async () => {
+	const dir = await ensureTasksDir(tempDir);
 	await Bun.write(
-		join(dir, "001-my-prd.md"),
-		"# My PRD\n\nDescription here.\n\n## Tasks\n\n- [ ] Task 1\n",
+		join(dir, "001-my-task.md"),
+		"# My Task\n\nDescription here.\n\n## Steps\n\n- [ ] Step 1\n",
 	);
 
-	const prd = await readPRD(1, tempDir);
-	expect(prd).not.toBeUndefined();
-	expect(prd!.id).toBe(1);
-	expect(prd!.slug).toBe("my-prd");
-	expect(prd!.title).toBe("My PRD");
-	expect(prd!.description).toBe("Description here.");
-	expect(prd!.tasks).toHaveLength(1);
+	const task = await readTask(1, tempDir);
+	expect(task).not.toBeUndefined();
+	expect(task!.id).toBe(1);
+	expect(task!.slug).toBe("my-task");
+	expect(task!.title).toBe("My Task");
+	expect(task!.description).toBe("Description here.");
+	expect(task!.steps).toHaveLength(1);
 });
 
-test("readPRD returns undefined for missing ID", async () => {
-	await ensurePrdsDir(tempDir);
-	const prd = await readPRD(99, tempDir);
-	expect(prd).toBeUndefined();
+test("readTask returns undefined for missing ID", async () => {
+	await ensureTasksDir(tempDir);
+	const task = await readTask(99, tempDir);
+	expect(task).toBeUndefined();
 });
 
-test("writePRD writes file to disk", async () => {
-	const prd: PRD = {
+test("writeTask writes file to disk", async () => {
+	const task: Task = {
 		id: 1,
-		slug: "test-prd",
-		title: "Test PRD",
+		slug: "test-task",
+		title: "Test Task",
 		description: "A test.",
-		tasks: [{ text: "Do something", completed: false }],
+		steps: [{ text: "Do something", completed: false }],
 	};
 
-	const filename = await writePRD(prd, tempDir);
-	expect(filename).toBe("001-test-prd.md");
+	const filename = await writeTask(task, tempDir);
+	expect(filename).toBe("001-test-task.md");
 
-	const content = await Bun.file(join(resolvePrdsPath(tempDir), filename)).text();
-	expect(content).toContain("# Test PRD");
+	const content = await Bun.file(join(resolveTasksPath(tempDir), filename)).text();
+	expect(content).toContain("# Test Task");
 	expect(content).toContain("- [ ] Do something");
 });
 
-test("createPRD creates a new PRD file", async () => {
-	const { prd, filename } = await createPRD(
+test("createTask creates a new task file", async () => {
+	const { task, filename } = await createTask(
 		{ title: "User Auth", description: "Auth system." },
 		tempDir,
 	);
 
-	expect(prd.id).toBe(1);
-	expect(prd.slug).toBe("user-auth");
+	expect(task.id).toBe(1);
+	expect(task.slug).toBe("user-auth");
 	expect(filename).toBe("001-user-auth.md");
 
-	const content = await Bun.file(join(resolvePrdsPath(tempDir), filename)).text();
+	const content = await Bun.file(join(resolveTasksPath(tempDir), filename)).text();
 	expect(content).toContain("# User Auth");
 });
 
-test("createPRD increments ID", async () => {
-	await createPRD({ title: "First", description: "" }, tempDir);
-	const { prd } = await createPRD({ title: "Second", description: "" }, tempDir);
-	expect(prd.id).toBe(2);
+test("createTask increments ID", async () => {
+	await createTask({ title: "First", description: "" }, tempDir);
+	const { task } = await createTask({ title: "Second", description: "" }, tempDir);
+	expect(task.id).toBe(2);
 });
 
-test("createPRD throws on empty title", async () => {
-	expect(createPRD({ title: "", description: "" }, tempDir)).rejects.toThrow("Title is required");
+test("createTask throws on empty title", async () => {
+	expect(createTask({ title: "", description: "" }, tempDir)).rejects.toThrow("Title is required");
 });

@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { Marked } from "marked";
 import { markedTerminal } from "marked-terminal";
-import { readPRD } from "../io/fs.ts";
+import { readTask } from "../io/fs.ts";
 
 const marked = new Marked(markedTerminal() as any);
 
@@ -11,7 +11,7 @@ interface ShowOptions {
 
 export default async function show({ id }: ShowOptions): Promise<string> {
 	if (!id) {
-		return chalk.red("Error: Missing PRD ID. Usage: fine show <id>");
+		return chalk.red("Error: Missing task ID. Usage: fine show <id>");
 	}
 
 	const numericId = parseInt(id, 10);
@@ -19,27 +19,27 @@ export default async function show({ id }: ShowOptions): Promise<string> {
 		return chalk.red(`Error: Invalid ID: "${id}". Must be a number.`);
 	}
 
-	const prd = await readPRD(numericId);
-	if (!prd) {
-		return chalk.red(`Error: PRD #${numericId} not found.`);
+	const task = await readTask(numericId);
+	if (!task) {
+		return chalk.red(`Error: Task #${numericId} not found.`);
 	}
 
 	const lines: string[] = [];
-	lines.push(chalk.bold.cyan(`#${String(prd.id).padStart(3, "0")} ${prd.title}`));
+	lines.push(chalk.bold.cyan(`#${String(task.id).padStart(3, "0")} ${task.title}`));
 
-	if (prd.description) {
+	if (task.description) {
 		lines.push("");
-		lines.push(prd.description);
+		lines.push(task.description);
 	}
 
-	if (prd.tasks.length > 0) {
+	if (task.steps.length > 0) {
 		lines.push("");
-		lines.push(chalk.bold("Tasks:"));
-		for (const task of prd.tasks) {
-			const checkbox = task.completed
+		lines.push(chalk.bold("Steps:"));
+		for (const step of task.steps) {
+			const checkbox = step.completed
 				? chalk.green("[x]")
 				: chalk.yellow("[ ]");
-			lines.push(`${checkbox} ${task.text}`);
+			lines.push(`${checkbox} ${step.text}`);
 		}
 	}
 

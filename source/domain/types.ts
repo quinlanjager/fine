@@ -1,25 +1,25 @@
-export interface Task {
+export interface Step {
 	readonly text: string;
 	readonly completed: boolean;
 }
 
-export interface PRD {
+export interface Task {
 	readonly id: number;
 	readonly slug: string;
 	readonly title: string;
 	readonly description: string;
-	readonly tasks: readonly Task[];
+	readonly steps: readonly Step[];
 }
 
-export interface PRDSummary {
+export interface TaskSummary {
 	readonly id: number;
 	readonly slug: string;
 	readonly title: string;
-	readonly completedTasks: number;
-	readonly totalTasks: number;
+	readonly completedSteps: number;
+	readonly totalSteps: number;
 }
 
-export interface PRDInput {
+export interface TaskInput {
 	readonly title: string;
 	readonly description: string;
 }

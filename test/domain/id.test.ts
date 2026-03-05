@@ -20,13 +20,13 @@ test("slugify trims leading/trailing hyphens", () => {
 });
 
 test("buildFilename pads ID to 3 digits", () => {
-	expect(buildFilename(1, "my-prd")).toBe("001-my-prd.md");
+	expect(buildFilename(1, "my-task")).toBe("001-my-task.md");
 	expect(buildFilename(42, "test")).toBe("042-test.md");
 	expect(buildFilename(100, "big")).toBe("100-big.md");
 });
 
 test("parseIdFromFilename extracts numeric ID", () => {
-	expect(parseIdFromFilename("001-my-prd.md")).toBe(1);
+	expect(parseIdFromFilename("001-my-task.md")).toBe(1);
 	expect(parseIdFromFilename("042-test.md")).toBe(42);
 });
 
@@ -36,7 +36,7 @@ test("parseIdFromFilename returns undefined for invalid filenames", () => {
 });
 
 test("parseSlugFromFilename extracts slug", () => {
-	expect(parseSlugFromFilename("001-my-prd.md")).toBe("my-prd");
+	expect(parseSlugFromFilename("001-my-task.md")).toBe("my-task");
 	expect(parseSlugFromFilename("042-user-authentication.md")).toBe("user-authentication");
 });
 
