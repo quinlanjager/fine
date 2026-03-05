@@ -9,7 +9,7 @@ The uncomplicated task management tool for agents.
 
 Fine gives your coding agent a simple way to track work. PRDs (Product Requirement Documents) are plain markdown files in a `prds/` directory -- no databases, no dashboards, just files your agent can read and write.
 
-## Install
+## Install {#install}
 
 ```bash
 npx skills add quinlanjager/fine
@@ -17,7 +17,7 @@ npx skills add quinlanjager/fine
 
 This installs the `prd` skill for Claude Code. Once installed, your agent can create PRDs, break work into tasks, and track progress as part of its normal workflow.
 
-## What your agent can do
+## What your agent can do {#usage}
 
 **Create a PRD** when starting a new feature:
 
@@ -47,7 +47,7 @@ fine show 1      # full detail on a specific PRD
 + - [x] Define color tokens for both themes
 ```
 
-## PRD format
+## PRD format {#format}
 
 Each PRD is a markdown file named `NNN-slug.md`. The files are the source of truth.
 
