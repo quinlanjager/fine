@@ -9,7 +9,7 @@ Work through a task's steps one at a time, doing the implementation work and mar
 
 ## Workflow
 
-1. **Review the task.** Run `fine show <id>` to see the full task with its description and steps. Read the description carefully — it provides context for all the steps.
+1. **Review the task.** Run `npx @jagersoftware/fine show <id>` to see the full task with its description and steps. Read the description carefully — it provides context for all the steps.
 
 2. **Find the next incomplete step.** Look for the first unchecked step (`- [ ]`). Work through steps in order unless there's a clear reason to skip ahead.
 
@@ -24,7 +24,7 @@ Work through a task's steps one at a time, doing the implementation work and mar
 
 5. **Repeat.** Go back to step 2 until all steps are checked off.
 
-6. **Confirm completion.** Run `fine list` to verify the task shows full progress (e.g., `[5/5]`).
+6. **Confirm completion.** Run `npx @jagersoftware/fine list` to verify the task shows full progress (e.g., `[5/5]`).
 
 ## Guidelines
 
@@ -39,7 +39,7 @@ Work through a task's steps one at a time, doing the implementation work and mar
 ```
 User: "Work on task 3"
 
-1. fine show 3
+1. npx @jagersoftware/fine show 3
    → Review title, description, and steps
 2. Read the first unchecked step: "Add validation to signup form"
 3. Read the relevant source files
@@ -48,5 +48,5 @@ User: "Work on task 3"
 6. Edit tasks/003-signup-form.md: change [ ] to [x] for that step
 7. Move to the next unchecked step
 8. ... repeat until all steps are done ...
-9. fine list → confirm [4/4] or similar
+9. npx @jagersoftware/fine list → confirm [4/4] or similar
 ```

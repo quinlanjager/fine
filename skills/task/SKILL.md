@@ -28,12 +28,12 @@ Description paragraph(s).
 
 ## CLI commands
 
-Run commands with `fine <command>`.
+Run commands with `npx @jagersoftware/fine <command>`.
 
 ### Create a task
 
 ```sh
-fine create --title "Feature Name" --description "What this feature does and why"
+npx @jagersoftware/fine create --title "Feature Name" --description "What this feature does and why"
 ```
 
 This auto-assigns the next available ID and generates the slug from the title. Use descriptive titles that read well as filenames — "User Authentication" becomes `001-user-authentication.md`.
@@ -41,7 +41,7 @@ This auto-assigns the next available ID and generates the slug from the title. U
 ### List all tasks
 
 ```sh
-fine list
+npx @jagersoftware/fine list
 ```
 
 Shows each task with its ID, title, and step progress (completed/total). This is the default command — running `fine` with no arguments does the same thing.
@@ -49,7 +49,7 @@ Shows each task with its ID, title, and step progress (completed/total). This is
 ### Show a task
 
 ```sh
-fine show <id>
+npx @jagersoftware/fine show <id>
 ```
 
 Accepts padded or unpadded IDs — both `1` and `001` work. Displays the full task content including description and all steps with their completion status.
@@ -57,7 +57,7 @@ Accepts padded or unpadded IDs — both `1` and `001` work. Displays the full ta
 ### Add a step
 
 ```sh
-fine add-step <id> --step "Step description"
+npx @jagersoftware/fine add-step <id> --step "Step description"
 ```
 
 Appends a new incomplete step to the task. Steps are always added as unchecked (`- [ ]`).
@@ -104,11 +104,11 @@ Here's the natural flow for using fine as an agent. Note: always stop after the 
 ```
 User: "Create a task for adding dark mode support"
 
-1. fine create --title "Dark Mode Support" --description "Add a dark/light theme toggle..."
-2. fine add-step 1 --step "Define color tokens for both themes"
-3. fine add-step 1 --step "Create ThemeProvider context"
-4. fine add-step 1 --step "Add toggle component to header"
-5. fine add-step 1 --step "Persist preference to localStorage"
+1. npx @jagersoftware/fine create --title "Dark Mode Support" --description "Add a dark/light theme toggle..."
+2. npx @jagersoftware/fine add-step 1 --step "Define color tokens for both themes"
+3. npx @jagersoftware/fine add-step 1 --step "Create ThemeProvider context"
+4. npx @jagersoftware/fine add-step 1 --step "Add toggle component to header"
+5. npx @jagersoftware/fine add-step 1 --step "Persist preference to localStorage"
 6. Summarize: "Created task 001 — Dark Mode Support with 4 steps: ..."
    STOP here. Do not begin implementing the steps.
 ```
@@ -116,9 +116,9 @@ User: "Create a task for adding dark mode support"
 ```
 User: "What's the status of our tasks?"
 
-1. fine list
+1. npx @jagersoftware/fine list
    → Shows all tasks with progress
-2. fine show 1
+2. npx @jagersoftware/fine show 1
    → Shows detail for any task that needs attention
 3. Summarize the current status for the user. Do not start working on incomplete steps.
 ```
