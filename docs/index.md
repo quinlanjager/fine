@@ -7,8 +7,11 @@ title: fine — task management for agents
 
 The uncomplicated task management tool for agents.
 
-Fine gives your coding agent a simple way to track work. Tasks are plain markdown
+**fine** gives your coding agent a simple way to track work. Tasks are plain markdown
 files in a `tasks/` directory. They are meant to be managed solely by your agent.
+
+Tasks generated with **fine** can be plugged into any workflow. Think of it as a way of
+generating the raw input for your code factory.
 
 ## Install
 
