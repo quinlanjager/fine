@@ -6,7 +6,8 @@ import tailwindcss from "lume/plugins/tailwindcss.ts";
 import check_urls from "lume/plugins/check_urls.ts";
 import sitemap from "lume/plugins/sitemap.ts";
 import seo from "lume/plugins/seo.ts";
-import toc from "lume_markdown_plugins/toc.ts";
+import metas from "lume/plugins/metas.ts";
+import ogImages from "lume/plugins/og_images.ts";
 
 function codeblockCopyPlugin(md: any) {
   const defaultRender = md.renderer.rules.fence;
@@ -46,12 +47,13 @@ const site = lume({}, {markdown: {plugins: [codeblockCopyPlugin]}});
 
 site.use(attributes());
 site.use(code_highlight());
-site.use(toc({ anchor: false }));
 site.use(robots());
 site.use(tailwindcss());
 site.use(check_urls());
 site.use(sitemap());
 site.use(seo());
+site.use(metas(/* Options */));
+site.use(ogImages());
 
 site.add("assets");
 site.add("favicon.ico");

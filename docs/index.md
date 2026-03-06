@@ -1,6 +1,13 @@
 ---
 layout: layout.vto
 title: fine — task management for agents
+metas:
+  site: fine documentation site
+  twitter: "@quinlanjager"
+  icon: /assets/logo.png
+  lang: en
+  image: /index.png
+openGraphLayout: /layouts/og_images.jsx
 ---
 
 # fine
