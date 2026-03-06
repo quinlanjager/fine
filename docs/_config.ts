@@ -54,5 +54,6 @@ site.use(sitemap());
 site.use(seo());
 
 site.add("assets");
+site.add("favicon.ico");
 
 export default site;

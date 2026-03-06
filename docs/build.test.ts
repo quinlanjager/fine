@@ -44,9 +44,9 @@ test("styles.css includes prose styles", async () => {
   expect(css).toContain(".prose");
 });
 
-test("header contains logo placeholder", async () => {
+test("header contains logo image", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
-  expect(html).toContain('class="logo-placeholder w-8 h-8 bg-base-300 rounded"');
+  expect(html).toContain('<img src="/assets/logo.png" alt="fine logo" class="w-8 h-8">');
 });
 
 test("header contains site name link", async () => {
