@@ -2,7 +2,8 @@
 
 The uncomplicated task management tool for agents.
 
-Fine gives your coding agent a simple way to track work. Tasks are plain markdown files in a `tasks/` directory -- no databases, no dashboards, just files your agent can read and write.
+Fine gives your coding agent a simple way to track work. Tasks are plain markdown
+files in a `tasks/` directory. They are meant to be managed solely by your agent.
 
 ## Install
 
@@ -10,37 +11,72 @@ Fine gives your coding agent a simple way to track work. Tasks are plain markdow
 npx skills add quinlanjager/fine
 ```
 
-This installs the `task` skill for Claude Code. Once installed, your agent can create tasks, break work into steps, and track progress as part of its normal workflow.
+Once installed, your agent can create tasks, break work into steps, and track progress
+as part of its normal workflow.
 
-## What your agent can do
+## Commands
 
-**Create a task** when starting a new feature:
+### `fine create`
+
+Create a new task.
 
 ```sh
 fine create --title "Dark Mode Support" --description "Add a dark/light theme toggle"
 ```
 
-**Break it into steps:**
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--title` | `-t` | Task title (required) |
+| `--description` | `-d` | Task description |
+
+Creates a numbered markdown file in `tasks/` (e.g. `tasks/001-dark-mode-support.md`).
+
+### `fine list`
+
+List all tasks with step progress. This is the default command when running `fine` with no arguments.
+
+```sh
+fine list
+```
+
+### `fine show <id>`
+
+Show a task's full detail — title, description, and steps.
+
+```sh
+fine show 1
+```
+
+### `fine add-step <id>`
+
+Add a step to an existing task.
 
 ```sh
 fine add-step 1 --step "Define color tokens for both themes"
 fine add-step 1 --step "Create ThemeProvider context"
-fine add-step 1 --step "Add toggle component to header"
 ```
 
-**Check progress:**
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--step` | | Step text (required) |
 
-```sh
-fine list        # overview of all tasks with step progress
-fine show 1      # full detail on a specific task
+## Task file format
+
+Tasks are markdown files with a title, description, and a steps section:
+
+```markdown
+# Dark Mode Support
+
+Add a dark/light theme toggle to the app.
+
+## Steps
+
+- [ ] Define color tokens for both themes
+- [x] Create ThemeProvider context
+- [ ] Add toggle component to header
 ```
 
-**Mark steps done** by editing the markdown directly:
-
-```diff
-- - [ ] Define color tokens for both themes
-+ - [x] Define color tokens for both themes
-```
+Steps are standard markdown checkboxes. Mark them done by changing `[ ]` to `[x]`.
 
 ## Examples
 

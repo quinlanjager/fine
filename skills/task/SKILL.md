@@ -94,12 +94,12 @@ When asked to work with tasks, follow this approach:
 1. **Check what exists first.** Run `list` to see current tasks before creating new ones — avoid duplicates.
 2. **Create tasks for distinct features**, not for individual steps. A task represents a body of work; steps go inside it.
 3. **Break work into concrete steps.** Each step should be a single deliverable action, not a vague goal. "Add login endpoint with JWT validation" is better than "Handle authentication."
-4. **Mark steps done as you complete them.** After finishing implementation work, edit the task markdown to check off the step. This keeps the task as the source of truth.
-5. **Read the task before starting work.** Use `show` to review the full context and step list before diving into implementation.
+4. **Do NOT perform the work.** This skill is for task management only — creating, viewing, updating, and organizing tasks. After creating or updating a task, summarize what was created/changed and stop. Do not start implementing the steps.
+5. **Summarize when done.** After creating a task or making changes, give a brief summary of the task (title, description, steps) so the user can confirm it looks right.
 
 ## Typical agent session
 
-Here's the natural flow for using fine as an agent:
+Here's the natural flow for using fine as an agent. Note: always stop after the task management action and summarize — never start implementing the work.
 
 ```
 User: "Create a task for adding dark mode support"
@@ -109,6 +109,8 @@ User: "Create a task for adding dark mode support"
 3. fine add-step 1 --step "Create ThemeProvider context"
 4. fine add-step 1 --step "Add toggle component to header"
 5. fine add-step 1 --step "Persist preference to localStorage"
+6. Summarize: "Created task 001 — Dark Mode Support with 4 steps: ..."
+   STOP here. Do not begin implementing the steps.
 ```
 
 ```
@@ -118,6 +120,7 @@ User: "What's the status of our tasks?"
    → Shows all tasks with progress
 2. fine show 1
    → Shows detail for any task that needs attention
+3. Summarize the current status for the user. Do not start working on incomplete steps.
 ```
 
 ```
@@ -126,4 +129,6 @@ User: "Mark the color tokens step as done"
 1. Edit tasks/001-dark-mode-support.md
    Change: - [ ] Define color tokens for both themes
    To:     - [x] Define color tokens for both themes
+2. Summarize: "Marked 'Define color tokens for both themes' as complete."
+   STOP here.
 ```

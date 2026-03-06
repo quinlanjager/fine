@@ -26,6 +26,14 @@ npx skills add quinlanjager/fine
 
 Claude will create a structured task in your `tasks/` directory with steps ready to work on.
 
+**Complete a task:**
+
+```
+/complete-task 001
+```
+
+You can just reference the id of the task to have your agent complete it.
+
 **Run a task with [Ralphy](https://ralphy.goshen.fyi/):**
 
 Once you have a task, hand it off to Ralphy to execute the work:
