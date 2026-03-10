@@ -7,6 +7,15 @@ description: Manage tasks using the fine CLI. Use this skill whenever the user a
 
 Fine is an agent-first project management CLI. Tasks are markdown files in a `tasks/` directory, managed via CLI commands and direct file editing.
 
+## Key principle: tasks are self-contained
+
+Each task must have a **well-defined deliverable** — something concrete that can be verified when the task is done. Executors can read other tasks, but they have **no context from previous task executions** (no memory of decisions made, approaches taken, or intermediate findings from other sessions). This means:
+
+- **Every step must be achievable from the repository and the task description alone.** Don't write steps that depend on runtime state, environment-specific setup, or decisions made during a previous task's execution.
+- **Tasks need well-defined deliverables, not open-ended research.** "Identify all broken links" is not a good task — it produces no deliverable. "Fix all broken links in the docs" is good — the deliverable is updated files. If research is needed, fold it into a task that acts on the findings.
+- **Verification steps are fine if they have clear pass/fail criteria.** For example, "Verify all links return 200" is a good step. If you can't define concrete verification criteria for a step, leave it out — but note the omission in your summary so the user can adjust.
+- **Include context the executor will need.** The executor can see other task files, but doesn't know what happened during their execution. If a task depends on choices made in another task, reference the expected output (e.g., "the auth module added in task 003") rather than assuming the executor knows the approach that was taken.
+
 ## Task file format
 
 Each task is a markdown file named `NNN-slug.md` (e.g., `001-user-authentication.md`). The ID and slug come from the filename, not the content.
@@ -92,10 +101,11 @@ Move the `- [ ]` / `- [x]` lines into the desired order. Each step is one line, 
 When asked to work with tasks, follow this approach:
 
 1. **Check what exists first.** Run `list` to see current tasks before creating new ones — avoid duplicates.
-2. **Create tasks for distinct features**, not for individual steps. A task represents a body of work; steps go inside it.
-3. **Break work into concrete steps.** Each step should be a single deliverable action, not a vague goal. "Add login endpoint with JWT validation" is better than "Handle authentication."
-4. **Do NOT perform the work.** This skill is for task management only — creating, viewing, updating, and organizing tasks. After creating or updating a task, summarize what was created/changed and stop. Do not start implementing the steps.
-5. **Summarize when done.** After creating a task or making changes, give a brief summary of the task (title, description, steps) so the user can confirm it looks right.
+2. **Create tasks for distinct features**, not for individual steps. A task represents a self-contained body of work with a well-defined deliverable; steps go inside it. The executor can read other tasks but has no context from their execution.
+3. **Break work into concrete steps.** Each step should be a single action with a clear deliverable, not a vague goal. "Add login endpoint with JWT validation" is better than "Handle authentication."
+4. **Ask when unclear.** Use AskUserQuestion to clarify ambiguities before creating or modifying tasks — e.g., unclear scope, missing acceptance criteria, or uncertain deliverables. It's better to ask than to guess wrong.
+5. **Do NOT perform the work.** This skill is for task management only — creating, viewing, updating, and organizing tasks. After creating or updating a task, summarize what was created/changed and stop. Do not start implementing the steps.
+6. **Summarize when done.** After creating a task or making changes, give a brief summary of the task (title, description, steps) so the user can confirm it looks right.
 
 ## Typical agent session
 
