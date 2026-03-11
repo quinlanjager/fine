@@ -10,8 +10,6 @@ metas:
 openGraphLayout: /layouts/og_images.jsx
 ---
 
-# fine
-
 The uncomplicated task management tool for agents.
 
 **fine** gives your coding agent a simple way to track work. Tasks are plain markdown
@@ -19,6 +17,8 @@ files in a `tasks/` directory. They are meant to be managed solely by your agent
 
 Tasks generated with **fine** can be plugged into any workflow. Think of it as a way of
 generating the raw input for your code factory.
+
+Perfect for use with [pi](https://pi.dev/) and [ralphy](https://ralphy.goshen.fyi/).
 
 ## Install
 
