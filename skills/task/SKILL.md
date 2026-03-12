@@ -102,7 +102,7 @@ When asked to work with tasks, follow this approach:
 
 1. **Check what exists first.** Run `list` to see current tasks before creating new ones — avoid duplicates.
 2. **Create tasks for distinct features**, not for individual steps. A task represents a self-contained body of work with a well-defined deliverable; steps go inside it. The executor can read other tasks but has no context from their execution.
-3. **Break work into concrete steps.** Each step should be a single action with a clear deliverable, not a vague goal. "Add login endpoint with JWT validation" is better than "Handle authentication."
+3. **Break work into concrete steps using TDD.** Each step should be a single action with a clear deliverable, not a vague goal. "Add login endpoint with JWT validation" is better than "Handle authentication." Follow a test-driven approach: for each piece of functionality, add a step to write a failing test *before* the step that implements the feature. The test step should produce a test that runs and fails (red), and the implementation step should make it pass (green). For example, instead of just "Add login endpoint," use two steps: "Write failing test for login endpoint" followed by "Implement login endpoint to pass test." Not every step needs a test (e.g., config changes, refactors with existing coverage), but any step that adds or changes behavior should be preceded by a test step.
 4. **Ask when unclear.** Use AskUserQuestion to clarify ambiguities before creating or modifying tasks — e.g., unclear scope, missing acceptance criteria, or uncertain deliverables. It's better to ask than to guess wrong.
 5. **Do NOT perform the work.** This skill is for task management only — creating, viewing, updating, and organizing tasks. After creating or updating a task, summarize what was created/changed and stop. Do not start implementing the steps.
 6. **Summarize when done.** After creating a task or making changes, give a brief summary of the task (title, description, steps) so the user can confirm it looks right.
@@ -116,10 +116,13 @@ User: "Create a task for adding dark mode support"
 
 1. npx @jagersoftware/fine create --title "Dark Mode Support" --description "Add a dark/light theme toggle..."
 2. npx @jagersoftware/fine add-step 1 --step "Define color tokens for both themes"
-3. npx @jagersoftware/fine add-step 1 --step "Create ThemeProvider context"
-4. npx @jagersoftware/fine add-step 1 --step "Add toggle component to header"
-5. npx @jagersoftware/fine add-step 1 --step "Persist preference to localStorage"
-6. Summarize: "Created task 001 — Dark Mode Support with 4 steps: ..."
+3. npx @jagersoftware/fine add-step 1 --step "Write failing test for ThemeProvider context"
+4. npx @jagersoftware/fine add-step 1 --step "Implement ThemeProvider context to pass test"
+5. npx @jagersoftware/fine add-step 1 --step "Write failing test for toggle component"
+6. npx @jagersoftware/fine add-step 1 --step "Add toggle component to header to pass test"
+7. npx @jagersoftware/fine add-step 1 --step "Write failing test for persisting theme preference"
+8. npx @jagersoftware/fine add-step 1 --step "Persist preference to localStorage to pass test"
+9. Summarize: "Created task 001 — Dark Mode Support with 7 steps (TDD: red/green pairs for each behavior): ..."
    STOP here. Do not begin implementing the steps.
 ```
 
