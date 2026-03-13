@@ -1,0 +1,26 @@
+on: [push]
+env:
+  HOST: https://fine.jager.software/
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Deploy to Cloudflare Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version-file: ./projects/marketing/.tool-versions
+      - name: Build
+        run: cd docs && deno install --allow-scripts --allow-import && deno task lume
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy docs/_site --project-name=fine
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
