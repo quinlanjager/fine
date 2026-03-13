@@ -2,8 +2,21 @@
 
 The uncomplicated task management tool for agents.
 
-Fine gives your coding agent a simple way to track work. Tasks are plain markdown
-files in a `tasks/` directory. They are meant to be managed solely by your agent.
+**fine** gives your coding agent a simple way to track work. Tasks are plain
+markdown files in a `tasks/` directory. They are meant to be managed solely by
+your agent.
+
+Tasks generated with **fine** can be plugged into any workflow. Think of it as a
+way of generating the raw input for your code factory.
+
+Perfect for use with [pi](https://pi.dev/) and
+[ralphy](https://ralphy.goshen.fyi/).
+
+### Features
+
+- Encourages agents to plan tasks using TDD
+- Includes a complete task skill so agents can track their work
+- Simple cli for agents that provides structure, but doesn't get in the way
 
 ## Install
 
@@ -11,8 +24,8 @@ files in a `tasks/` directory. They are meant to be managed solely by your agent
 npx skills add quinlanjager/fine
 ```
 
-Once installed, your agent can create tasks, break work into steps, and track progress
-as part of its normal workflow.
+Once installed, your agent can create tasks, break work into steps, and track
+progress as part of its normal workflow.
 
 ## Commands
 
@@ -24,16 +37,18 @@ Create a new task.
 fine create --title "Dark Mode Support" --description "Add a dark/light theme toggle"
 ```
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--title` | `-t` | Task title (required) |
-| `--description` | `-d` | Task description |
+| Flag            | Short | Description           |
+| --------------- | ----- | --------------------- |
+| `--title`       | `-t`  | Task title (required) |
+| `--description` | `-d`  | Task description      |
 
-Creates a numbered markdown file in `tasks/` (e.g. `tasks/001-dark-mode-support.md`).
+Creates a numbered markdown file in `tasks/` (e.g.
+`tasks/001-dark-mode-support.md`).
 
 ### `fine list`
 
-List all tasks with step progress. This is the default command when running `fine` with no arguments.
+List all tasks with step progress. This is the default command when running
+`fine` with no arguments.
 
 ```sh
 fine list
@@ -56,9 +71,9 @@ fine add-step 1 --step "Define color tokens for both themes"
 fine add-step 1 --step "Create ThemeProvider context"
 ```
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--step` | | Step text (required) |
+| Flag     | Short | Description          |
+| -------- | ----- | -------------------- |
+| `--step` |       | Step text (required) |
 
 ## Task file format
 
@@ -76,7 +91,8 @@ Add a dark/light theme toggle to the app.
 - [ ] Add toggle component to header
 ```
 
-Steps are standard markdown checkboxes. Mark them done by changing `[ ]` to `[x]`.
+Steps are standard markdown checkboxes. Mark them done by changing `[ ]` to
+`[x]`.
 
 ## Examples
 
@@ -86,7 +102,8 @@ Steps are standard markdown checkboxes. Mark them done by changing `[ ]` to `[x]
 /task Create a task for adding dark mode support to our app
 ```
 
-Claude will create a structured task in your `tasks/` directory with steps ready to work on.
+Claude will create a structured task in your `tasks/` directory with steps ready
+to work on.
 
 **Run a task with [Ralphy](https://ralphy.goshen.fyi/):**
 

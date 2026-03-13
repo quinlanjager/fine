@@ -43,7 +43,7 @@ function codeblockCopyPlugin(md: any) {
   };
 }
 
-const site = lume({}, {markdown: {plugins: [codeblockCopyPlugin]}});
+const site = lume({}, { markdown: { plugins: [codeblockCopyPlugin] } });
 
 site.use(attributes());
 site.use(code_highlight());

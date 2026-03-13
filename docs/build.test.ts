@@ -1,4 +1,4 @@
-import { test, expect } from "bun:test";
+import { expect, test } from "bun:test";
 
 const SITE_DIR = import.meta.dir + "/_site";
 
@@ -46,7 +46,9 @@ test("styles.css includes prose styles", async () => {
 
 test("header contains logo image", async () => {
   const html = await Bun.file(`${SITE_DIR}/index.html`).text();
-  expect(html).toContain('<img src="/assets/logo.png" alt="fine logo" class="w-8 h-8">');
+  expect(html).toContain(
+    '<img src="/assets/logo.png" alt="fine logo" class="w-8 h-8">',
+  );
 });
 
 test("header contains site name link", async () => {

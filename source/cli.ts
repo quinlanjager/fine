@@ -3,7 +3,7 @@ import meow from "meow";
 import run from "./app.ts";
 
 const cli = meow(
-	`
+  `
 	Usage
 	  $ fine <command> [options]
 
@@ -27,20 +27,20 @@ const cli = meow(
 	  $ fine list
 	  $ fine show 1
 `,
-	{
-		importMeta: import.meta,
-		autoHelp: false,
-		flags: {
-			help: { type: "boolean", shortFlag: "h" },
-			title: { type: "string", shortFlag: "t" },
-			description: { type: "string", shortFlag: "d" },
-			step: { type: "string" },
-		},
-	},
+  {
+    importMeta: import.meta,
+    autoHelp: false,
+    flags: {
+      help: { type: "boolean", shortFlag: "h" },
+      title: { type: "string", shortFlag: "t" },
+      description: { type: "string", shortFlag: "d" },
+      step: { type: "string" },
+    },
+  },
 );
 
 if (cli.flags.help || cli.flags.h) {
-	cli.showHelp();
+  cli.showHelp();
 }
 
 const command = cli.input[0] ?? "list";

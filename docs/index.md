@@ -12,26 +12,27 @@ openGraphLayout: /layouts/og_images.jsx
 
 The uncomplicated task management tool for agents.
 
-**fine** gives your coding agent a simple way to track work. Tasks are plain markdown
-files in a `tasks/` directory. They are meant to be managed solely by your agent.
+**fine** gives your coding agent a simple way to track work. Tasks are plain
+markdown files in a `tasks/` directory. They are meant to be managed solely by
+your agent.
 
-Tasks generated with **fine** can be plugged into any workflow. Think of it as a way of
-generating the raw input for your code factory.
+Tasks generated with **fine** can be plugged into any workflow. Think of it as a
+way of generating the raw input for your code factory.
 
-Perfect for use with [pi](https://pi.dev/) and [ralphy](https://ralphy.goshen.fyi/).
+Perfect for use with [pi](https://pi.dev/) and
+[ralphy](https://ralphy.goshen.fyi/).
+
+### Features
+
+- Encourages agents to plan tasks using TDD
+- Includes a complete task skill so agents can track their work
+- Simple cli for agents that provides structure, but doesn't get in the way
 
 ## Install
 
 ```bash
 npx skills add quinlanjager/fine
 ```
-
-### Features
-
-- Encourages agents to implement TDD Workflows
-- Includes a complete task skill so agents can track their work
-- Simple cli for agents that provides structure, but doesn't get in the way
-
 
 ## Examples
 
@@ -41,7 +42,8 @@ npx skills add quinlanjager/fine
 /task Create a task for adding dark mode support to our app
 ```
 
-Claude will create a structured task in your `tasks/` directory with steps ready to work on.
+Claude will create a structured task in your `tasks/` directory with steps ready
+to work on.
 
 **Complete a task:**
 
