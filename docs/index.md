@@ -26,6 +26,13 @@ Perfect for use with [pi](https://pi.dev/) and [ralphy](https://ralphy.goshen.fy
 npx skills add quinlanjager/fine
 ```
 
+### Features
+
+- Encourages agents to implement TDD Workflows
+- Includes a complete task skill so agents can track their work
+- Simple cli for agents that provides structure, but doesn't get in the way
+
+
 ## Examples
 
 **Generate a task:**
